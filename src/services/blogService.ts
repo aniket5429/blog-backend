@@ -1,23 +1,23 @@
-import {prismaClient} from '../services/prismaService';
+import { prismaClient } from '../services/prismaService'
 
 const blogService = {
     async getBlogs() {
-        return await prismaClient.blog.findMany();
+        return await prismaClient.blog.findMany()
     },
-    
+
     async getPostById(id: number) {
         return await prismaClient.blog.findUnique({
-            where: { id }
-        });
+            where: { id },
+        })
     },
 
     async createBlog(title: string, content: string) {
         return await prismaClient.blog.create({
             data: {
                 title,
-                content
-            }
-        });
+                content,
+            },
+        })
     },
 
     async updateBlog(id: number, title: string, content: string) {
@@ -25,10 +25,10 @@ const blogService = {
             where: { id },
             data: {
                 title,
-                content
-            }
-        });
-    }
+                content,
+            },
+        })
+    },
 }
 
-export default blogService;
+export default blogService
