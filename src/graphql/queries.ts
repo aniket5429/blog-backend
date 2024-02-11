@@ -1,4 +1,5 @@
+import blogService from '../services/blogService'
 export const Queries = {
-    blogs: () => [],
-    blog: (id: Number) => {}
+    blogs: blogService.getBlogs,
+    blog: ( parent: any, {id}: {id: number}, context: any, info: any ) => blogService.getPostById(id)
 }

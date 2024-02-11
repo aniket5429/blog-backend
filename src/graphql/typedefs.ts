@@ -5,17 +5,17 @@ import { gql } from 'apollo-server-express';
 // your data.
 export const typeDefs = gql`
   type Blog {
-    id: ID!
+    id: Int!
     title: String
     content: String
   }
   type Query {
     blogs: [Blog!]!
-    blog (id: ID!): Blog
+    blog (id: Int!): Blog
   }
 
   type Mutation {
     createBlog(title: String!, content: String!): Blog!
-    updateBlog(id: ID!, title: String, content: String): Blog!
+    updateBlog(id: Int!, title: String, content: String): Blog!
   }
 `;
