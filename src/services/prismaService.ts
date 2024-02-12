@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-export const prismaClient = new PrismaClient()
+const prismaClient = new PrismaClient()
 
 const disconnect = (): void => {
     prismaClient.$disconnect().catch(e => {
@@ -10,3 +10,5 @@ const disconnect = (): void => {
 }
 
 process.on('exit', disconnect)
+
+export default prismaClient

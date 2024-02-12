@@ -1,4 +1,4 @@
-import { prismaClient } from '../services/prismaService'
+import prismaClient from '../services/prismaService'
 
 const blogService = {
     async getBlogs() {
