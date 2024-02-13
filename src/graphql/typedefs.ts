@@ -10,7 +10,7 @@ export const typeDefs = gql`
         content: String
     }
     type Query {
-        blogs: [Blog!]!
+        blogs(page: Int!, size: Int): [Blog!]!
         blog(id: Int!): Blog
     }
 

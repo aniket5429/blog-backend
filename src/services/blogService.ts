@@ -1,8 +1,11 @@
 import prismaClient from '../services/prismaService'
 
 const blogService = {
-    async getBlogs() {
-        return await prismaClient.blog.findMany()
+    async getBlogs(page: number, size: number) {
+        return await prismaClient.blog.findMany({
+            skip: (page - 1) * size,
+            take: size,
+        })
     },
 
     async getPostById(id: number) {
