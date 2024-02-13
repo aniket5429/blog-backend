@@ -9,7 +9,8 @@
         "lint:fix": "eslint --fix . --ext .ts",
         "test:setup": "dotenv -e .env.test prisma migrate deploy --schema=./prisma/schema.prisma",
         "test": "NODE_ENV=test && npm run test:setup && jest --setupFiles ./tests/setup.ts",
-        "test:fast": "jest --setupFiles ./tests/setup.ts --watch"
+        "build": "tsc",
+        "serve": "node build/src/app.js"
     },
     "keywords": [],
     "author": "",
