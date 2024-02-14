@@ -1,0 +1,57 @@
+name: Node.js CI/CD to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      # Build step
+      - name: Build
+        run: npm run build
+      - name: Upload build directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build d irectory
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
+      - name: Deploy to EC2
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-rlgoDzvc -i --delete'
+          SOURCE: 'build/'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: 'ec2-user'
+          TARGET: '/home/ec2-user/blog-backend/build/'
+          SCRIPT_AFTER: |
+            cd /home/ec2-user/blog-backend/
+            git pull origin main
+            npm install
+            npm run migrate
+            pm2 restart all
